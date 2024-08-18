@@ -1,0 +1,8 @@
+! MHA Window Manager setting 
+*.uselessGap: 5
+*.borderDpi:  5
+*.font:       "JetBrainsMono Nerd Font 5"
+*.fontSize:   10
+
+! Xorg issue nov 2021 - use and change if needed
+Xft.dpi:   96

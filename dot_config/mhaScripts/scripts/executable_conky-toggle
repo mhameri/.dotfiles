@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if pgrep -x conky > /dev/null; then
+    # Kill the conky process
+    echo "Stopping conky..."
+    pkill -x conky
+else
+    # Start conky
+    echo "Starting conky..."
+    conky &
+fi

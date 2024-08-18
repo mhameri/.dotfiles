@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+## run (only once) processes which spawn with the same name
+function run {
+   if (command -v $1 && ! pgrep $1); then
+     $@&
+   fi
+}
+
+## run (only once) processes which spawn with different name
+if (command -v /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 && ! pgrep polkit-gnome-authentication-agent-1); then
+    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+fi
+if (command -v gnome-keyring-daemon && ! pgrep gnome-keyring-d); then
+    gnome-keyring-daemon --daemonize --login &
+fi
+
+# if (command -v start-pulseaudio-x11 && ! pgrep pulseaudio); then
+#     start-pulseaudio-x11 &
+# fi
+# if (command -v  xfce4-power-manager && ! pgrep xfce4-power-man) ; then
+#     xfce4-power-manager &
+# fi
+# System-config-printer-applet is not installed in minimal edition
+if (command -v system-config-printer-applet && ! pgrep applet.py ); then
+  system-config-printer-applet &
+fi
+
+# run xfsettingsd
+run nm-applet
+run light-locker
+run picom -b
+run thunar --daemon
+run pa-applet
+run pamac-tray
+run blueman-applet
+# Enable numlock on login
+run numlockx
+
+# reset wallpaper
+# variety &
+# nitrogen --set-zoom-fill --save $(/usr/bin/ls -d ~/Pictures/Wallpapers/*.jpg ~/Pictures/Wallpapers/*.jpeg ~/Pictures/Wallpapers/*.png | shuf -n 1) &
+nitrogen --set-zoom-fill --save $(/usr/bin/ls -d /mnt/data/Pictures/wallpapers/backgrounds/* | shuf -n 1) &
+# feh --randomize --bg-fill /mnt/data/Pictures/wallpapers/backgrounds/* &
+
+# Keyboard
+# https://wiki.archlinux.org/title/Xorg/Keyboard_configuration https://www.baeldung.com/linux/keyboard-variants-layouts-options
+setxkbmap -model pc105 -layout us,ir -variant ,winkeys -option grp:ctrls_toggle

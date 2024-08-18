@@ -1,0 +1,2 @@
+#!/bin/bash
+grep URL "$1" | cut -d'=' -f2 | xargs /usr/bin/sensible-browser &
